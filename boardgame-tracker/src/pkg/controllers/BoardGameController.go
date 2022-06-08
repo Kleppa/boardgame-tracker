@@ -1,7 +1,7 @@
 package controllers
 
 import (
-	"boardgame-tracker/src/documents"
+	"boardgame-tracker/src/pkg/documents"
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
@@ -15,11 +15,14 @@ func CreatePerson(w http.ResponseWriter, r *http.Request) {
 	var newPerson documents.Person
 	reqBody, err := ioutil.ReadAll(r.Body)
 	if err != nil {
-		fmt.Fprintf(w, "wrong payload")
+		fmt.Println( "wrong payload")
 	}
 	json.Unmarshal(reqBody, &newPerson)
 	w.WriteHeader(http.StatusCreated)
-	_ = json.NewEncoder(w).Encode(newPerson)
-	fmt.Fprintf(w, "%p person created", newPerson)
+	encoderErr := json.NewEncoder(w).Encode(newPerson)
+	if encoderErr != nil {
+		return
+	}
+	fmt.Printf("%p person created\n", newPerson)
 
 }

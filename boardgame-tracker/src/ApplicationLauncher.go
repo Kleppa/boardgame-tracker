@@ -1,7 +1,8 @@
 package main
 
 import (
-	"boardgame-tracker/src/controllers"
+	"boardgame-tracker/src/pkg/controllers"
+	"boardgame-tracker/src/pkg/utility"
 	"fmt"
 	"github.com/gorilla/mux"
 	"log"
@@ -16,5 +17,8 @@ func main() {
 	router := mux.NewRouter().StrictSlash(true)
 	router.HandleFunc("/", homeLink)
 	router.HandleFunc("/person", controllers.CreatePerson)
+	test := utility.GetHotGames()
+	print(test)
 	log.Fatal(http.ListenAndServe(":8080", router))
+
 }
