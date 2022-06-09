@@ -27,9 +27,26 @@ func main() {
 
 }
 
+func homeLink(w http.ResponseWriter, r *http.Request) {
+	fmt.Fprintf(w, "Welcome home!")
+}
+
+func setUpgames() {
+	var gamesId = []string{"167791"}
+	for _, gId := range gamesId {
+		utility.GetHotGames(gId)
+
+	}
+}
+
+func setUpRoutes() {
+
+	router.HandleFunc("/", homeLink)
+	router.HandleFunc("/person", controllers.CreatePerson)
+}
 func googleSheetsSetup() {
 	ctx := context.Background()
-	b, err := ioutil.ReadFile("credentials.json")
+	b, err := ioutil.ReadFile("src/credentials.json")
 	if err != nil {
 		log.Fatalf("Unable to read client secret file: %v", err)
 	}
@@ -64,23 +81,6 @@ func googleSheetsSetup() {
 			fmt.Printf("%s, %s\n", row[0], row[4])
 		}
 	}
-}
-func homeLink(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintf(w, "Welcome home!")
-}
-
-func setUpgames() {
-	var gamesId = []string{"167791"}
-	for _, gId := range gamesId {
-		utility.GetHotGames(gId)
-
-	}
-}
-
-func setUpRoutes() {
-
-	router.HandleFunc("/", homeLink)
-	router.HandleFunc("/person", controllers.CreatePerson)
 }
 
 // Retrieve a token, saves the token, then returns the generated client.

@@ -33,10 +33,9 @@ func GetHotGames(gameId string) documents.BoardgamesXML {
 	return bg
 }
 
-func CreateSimpleBoardGameStruct(bgXML documents.BoardgamesXML) Boardgame {
-	var simpleBG Boardgame
+func CreateSimpleBoardGameStruct(bgXML documents.BoardgamesXML) documents.Boardgame {
+	var simpleBG documents.Boardgame
 	boardgameXML := bgXML.BoardgameXML
-	simpleBG.Image = boardgameXML.Image
 	minPlayers, minPlayError := strconv.Atoi(boardgameXML.Minplayers)
 
 	if minPlayError != nil {
@@ -47,6 +46,7 @@ func CreateSimpleBoardGameStruct(bgXML documents.BoardgamesXML) Boardgame {
 	if maxPlayError != nil {
 		log.Printf("Error converting minplayers game with ID :%d , error : %e", boardgameXML.Maxplayers, maxPlayError)
 	}
+	simpleBG.Image = boardgameXML.Image
 	simpleBG.MinPlayers = minPlayers
 	simpleBG.MaxPlayers = maxPlayers
 	simpleBG.MinPlaytime = boardgameXML.Minplaytime
@@ -59,13 +59,4 @@ func CreateSimpleBoardGameStruct(bgXML documents.BoardgamesXML) Boardgame {
 	}
 	log.Printf("\n %o", simpleBG)
 	return simpleBG
-}
-
-type Boardgame struct {
-	Image       string
-	MinPlaytime string
-	MinPlayers  int
-	MaxPlayers  int
-	Description string
-	Name        string
 }
